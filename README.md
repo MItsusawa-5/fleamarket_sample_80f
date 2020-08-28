@@ -13,7 +13,7 @@
 - ajaxを使用した非同期処理
 - pay.jpによる購入処理
 - capistranoによるAWS EC2への自動デプロイ
-- ActiveStorageを使用しAWS S3への画像アップロード
+- carrierwaveを使用しAWS S3への画像アップロード
 - RSpecを使った単体テスト
 
 ## Requirement
@@ -157,7 +157,7 @@ https://gyazo.com/9abc7585443f2564841250649b05b784
 ### Association
 - belongs_to :item
 
-## comment table
+## comments table
 |Column|Type|Options|
 |------|----|-------|
 |comment_content|string|
