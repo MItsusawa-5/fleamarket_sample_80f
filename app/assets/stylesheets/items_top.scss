@@ -192,7 +192,7 @@
     margin-inline-end: 0px;
     color: #3CCACE;
   }
-  .item-box_photo__sold{
+  .item-box_photo__sold{ 
       padding-bottom:0;
       width: 0;
       height: 0px;
@@ -201,8 +201,8 @@
       border-bottom: 60px solid transparent;
       border-left: 60px solid #ea352d ;
       z-index:100;
-      position: relative;
-      top:-305px;
+      position: absolute;
+      top:0px;
       &__inner{
         transform: rotate(-45deg);
         font-size: 28px;
@@ -212,7 +212,13 @@
         font-weight: 600;
     }
   }
+.productList1{
+  position: relative;
+}
 
+.productList{
+  position: relative;
+}
 .items-box_photo__sold{
   width: 0;
   height: 0;
@@ -221,8 +227,8 @@
   border-bottom: 60px solid transparent;
   border-left: 60px solid #ea352d ;
   z-index:100;
-  position: relative;
-  top:-310px;
+  position: absolute;
+  top:0px;
     &__inner{
       transform: rotate(-45deg);
       font-size: 28px;

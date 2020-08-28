@@ -23,7 +23,9 @@ $(document).on('turbolinks:load', ()=> {
   fileIndex.splice(0, lastIndex);
 
   $('.hidden-destroy').hide();
-
+  if ($('.edit-image').length == 4){
+    $('.js-file_group:last').css('display', 'none');
+  }
   $('#image-box').on('change', '.js-file', function(e) {
     const targetIndex = $(this).parent().data('index');
     // ファイルのブラウザ上でのURLを取得する
@@ -38,6 +40,8 @@ $(document).on('turbolinks:load', ()=> {
       // fileIndexの先頭の数字を使ってinputを作る
       $('#image-box').append(buildFileField(fileIndex[0]));
       fileIndex.shift();
+      $(this).parent().children('.js-remove').css('display', 'block')
+      $('.js-remove:last').css('display', 'none')
       // 末尾の数に1足した数を追加する
       fileIndex.push(fileIndex[fileIndex.length - 1] + 1);
       if( $( '.js-file_group').length == 5){
@@ -57,6 +61,11 @@ $(document).on('turbolinks:load', ()=> {
     $(`img[data-index="${targetIndex}"]`).remove();
 
     // 画像入力欄が0個にならないようにしておく
-    if ($('.js-file').length == 0) $('#image-box').append(buildFileField(fileIndex[0]));
+    if ($('.js-file').length == 4) 
+      {$('.js-file_group:last').css('display', 'block')}
+      $('.js-remove:last').css('display', 'none')
+    if ($('.js-file').length == 0)
+      {$('#image-box').append(buildFileField(fileIndex[0]))}; 
+    
   });
 });

@@ -20,12 +20,10 @@ class ItemsController < ApplicationController
     @appliances= Category.find(874).subtree
     @appliances_items = Item.where(category_id: @appliances)
     @last_appliances_item = @appliances_items.last
-    # @items = current_user.items 
-    # @item = current_user.items.new 
+    
   end
 
   def new
-    # binding.pry
     @item = Item.new
     @item.images.build
     @parents = Category.where(ancestry: nil)
@@ -34,7 +32,6 @@ class ItemsController < ApplicationController
   def show
     @parents = Category.where(ancestry: nil)
     @images = @item.images 
-    # @comment = current_user.comments.new
     @comments = @item.comments.includes(:user)
     @comment = @item.comments.build
   end
@@ -49,6 +46,7 @@ class ItemsController < ApplicationController
   
   def create
     @item = Item.new(item_params)
+  
     if @item.save
       redirect_to root_path 
     else
@@ -73,13 +71,23 @@ class ItemsController < ApplicationController
     if @item.update(item_params)
       redirect_to root_path
     else
-      redirect_to edit_item_path notice: '未入力があるため、更新ができませんでした'
+      redirect_to edit_item_path, notice: '未入力があるため、更新ができませんでした'
     end
   end
 
   private
   def item_params
-    params.require(:item).permit(:post_content,:name,:explain,:status_id,:delivery_cost_id,:area_id,:brand,:limit_id,:price,:category_id,:buyer_id,images_attributes: [:image, :_destroy, :id]).merge(user_id: current_user.id)
+    params.require(:item).permit(
+      :post_content,
+      :name,
+      :explain,
+      :status_id,
+      :delivery_cost_id,
+      :area_id,:brand,
+      :limit_id,:price,
+      :category_id,
+      :buyer_id,
+      images_attributes: [:image, :_destroy, :id]).merge(user_id: current_user.id)
   end
 
   def set_item

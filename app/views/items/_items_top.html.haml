@@ -46,7 +46,7 @@
               %h3
                 このカテゴリの新規投稿商品はありません。
             - else
-              = link_to item_path(@items), class:"link" do
+              = link_to item_path(@last_ladies_item), class:"link" do
                 %figure.productList--img
                   = image_tag @last_ladies_item.images[0].image.url,size:"250x200" , alt:"商品写真"
               .productList--body
@@ -74,8 +74,8 @@
               %h3
                 このカテゴリの新規投稿商品はありません。
             - else
-              = link_to item_path(@items), class:"link" do
-                %figure.productList--img1
+              = link_to item_path(@last_mens_item), class:"link" do
+                %figure.productList--img
                   = image_tag @last_mens_item.images[0].image.url,size:"250x200" , alt:"商品写真"
               .productList--body
                 %h3.name
@@ -101,7 +101,7 @@
               %h3
                 このカテゴリの新規投稿商品はありません。
             - else
-              = link_to item_path(@items), class:"link" do
+              = link_to item_path(@last_babies_item), class:"link" do
                 %figure.productList--img
                   = image_tag @last_babies_item.images[0].image.url,size:"250x200" , alt:"商品写真"
               .productList--body
@@ -128,7 +128,7 @@
               %h3
                 このカテゴリの新規投稿商品はありません。
             - else
-              = link_to item_path(@items), class:"link" do
+              = link_to item_path(@last_appliances_item), class:"link" do
                 %figure.productList--img
                   = image_tag @last_appliances_item.images[0].image.url,size:"250x200" , alt:"商品写真"
               .productList--body

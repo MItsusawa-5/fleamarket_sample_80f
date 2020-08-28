@@ -1,114 +1,106 @@
-%body
-  .wrapper
-    = render "top-contents"
-  .edit_form
+.wrapper
+  = render "top-contents"
+.form1
+  .contents
     = form_with model:@item, local:true do |f|
-      .edit_constraint
-        .edit_imageindicate
+      .new_constraint
+        .new_imageindicate
           出品画像
-          %br
-            (1枚〜4枚まで)
-        .edit_imagemust 
+        .new_image-coution
+          (1枚〜4枚まで)
+        .new_imagemust 
           ※必須
       .edit_hidden-content
-    = form_for @item do |f|
-      #image-box
-        #previews
-          - if @item.persisted?
-            - @item.images.each_with_index do |image, i|
-              = image_tag image.image.url, data: { index: i }, width: "250", height: '200',class: 'edit-image'
-        .edit_block
-        = f.fields_for :images do |image|
-          .js-file_group{"data-index" => "#{image.index}"}
-            = image.file_field :image, class: 'js-file'
-            %br/
-            %span.js-remove 削除
-          - if @item.persisted?
-            = image.check_box :_destroy, data:{ index: image.index }, class: 'hidden-destroy'
-        - if @item.persisted?
-          .js-file_group{"data-index" => "#{@item.images.count}"}
-            = file_field_tag :image, name: "item[images_attributes][#{@item.images.count}][image]", class: 'js-file'
-            .js-remove 削除
-
-      .listing-form-box
-        カテゴリー
-        %span.listing-default--require ※必須
-          
-        .listing-product-detail__category
-          = f.label 'カテゴリー選択', class: 'listing-default__label'
-
-          .listing-select-wrapper
-            .listing-select-wrapper__box
-              = f.collection_select :category_id, @item.category.root.siblings, :id, :name, {selected: @item.category.root.id}, {class: 'listing-select-wrapper__box--select', id: 'parent_category'}
-              %i.fas.fa-chevron-down.listing-select-wrapper__box--arrow-down
-              = f.collection_select :category_id, @item.category.parent.siblings, :id, :name, {selected: @item.category.parent.id}, {class: 'listing-select-wrapper__box--select', id: 'parent_category1'}
-              
-              = f.collection_select :category_id, @item.category.siblings, :id, :name, {selected: @item.category.id}, {class: 'listing-select-wrapper__box--select', id: 'parent_category2'}
-              
-      .edit_name
-        .edit_item
-          .edit_iteminfo
-            .edit_iteminfo__name
+        #image-box
+          #previews
+            - if @item.persisted?
+              - @item.images.each_with_index do |image, i|
+                = image_tag image.image.url, data: { index: i }, width: "245", height: '200',class: 'edit-image'
+          .edit_block
+            = f.fields_for :images do |image|
+              .js-file_group{"data-index" => "#{image.index}"}
+                = image.file_field :image, class: 'js-file'
+                %br/
+                %span.js-remove 削除
+              - if @item.persisted?
+                = image.check_box :_destroy, data:{ index: image.index }, class: 'hidden-destroy'
+            - if @item.persisted?
+              .js-file_group{"data-index" => "#{@item.images.count}"}
+                = file_field_tag :image, name: "item[images_attributes][#{@item.images.count}][image]", class: 'js-file'
+                .js-remove 削除
+        .listing-form-box
+          .listing-product-detail__category
+            = f.label 'カテゴリー', class: 'listing-default__label'
+            %span.listing-default--require ※必須
+            
+            .listing-select-wrapper
+              .listing-select-wrapper__box
+                = f.collection_select :category_id, @item.category.root.siblings, :id, :name, {selected: @item.category.root.id}, {class: 'listing-select-wrapper__box--select',name: 'parent_id', id: 'parent_category'}
+                %i.fas.fa-chevron-down.listing-select-wrapper__box--arrow-down
+                = f.collection_select :category_id, @item.category.parent.siblings, :id, :name, {include_blank: "---",selected: @item.category.parent.id}, {class: 'listing-select-wrapper__box--select',name: 'child_id', id: 'parent_category1'}
+                
+                = f.collection_select :category_id, @item.category.siblings, :id, :name, {include_blank: "---",selected: @item.category.id}, {class: 'listing-select-wrapper__box--select', id: 'parent_category2'}
+      .name1
+        .item
+          .iteminfo
+            .iteminfo__name
               商品名
-            .edit_iteminfo__must
+            .iteminfo__must
               ※必須
-          = f.text_field :name, placeholder:"商品名記載",class: "edit_nameform"
-      .edit_explain
-        .edit_item
-          .edit_iteminfo
-            .edit_iteminfo__name
+          = f.text_field :name, placeholder:"商品名記載",class: "nameform"
+      .explain
+        .item
+          .iteminfo
+            .iteminfo__name
               説明
-            .edit_iteminfo__must
+            .iteminfo__must
               ※必須
-          = f.text_area :explain, placeholder:"詳細記載",class: "edit_explainform" 
-      .edit_brand
-        .edit_item
-          .edit_iteminfo
-            .edit_iteminfo__name
+          = f.text_area :explain, placeholder:"詳細記載",class: "explainform" 
+      .brand
+        .item
+          .iteminfo
+            .iteminfo__name
               ブランド
-            .edit_iteminfo__any
+            .iteminfo__must
               ※任意
-          = f.text_field :brand, placeholder:"指定なし",class: "edit_nameform"
-      .edit_status
-        .edit_statuscontent
-          .edit_statusinfo
-            .edit_statusinfo__name
-              商品の状態
-            .edit_statusinfo__must
-              ※必須
-          = f.collection_select :status_id ,Status.all, :id,:name ,class: "edit_statusform"
-      .edit_area
-        .edit_areacontent
-          .edit_areainfo
-            .edit_areainfo__name
-              発送元の地域
-            .edit_areainfo__must
-              ※必須
-          = f.collection_select :area_id ,Area.all, :id,:name ,class: "edit_statusform"
-      .edit_limit
-        .edit_tlimitcontent
-          .edit_limitinfo
-            .edit_limitinfo__name
-              発送までの日数
-            .edit_limitinfo__must
-              ※必須
-          = f.collection_select :limit_id ,Limit.all, :id,:name ,class: "edit_limitform"
-      .edit_delivery_cost 
-        .edit_deliverycontent
-          .edit_deliveryinfo
-            .edit_deliveryinfo__name
-              配送料の負担
-            .edit_deliveryinfo__must
-              ※必須
-          = f.collection_select :delivery_cost_id ,DeliveryCost.all, :id,:name,class: "edit_deliveryform"
-      .edit_price1
-        .edit_pricecontent
-          .edit_priceinfo
-            .edit_priceinfo__name
-              価格
-            .edit_priceinfo__must
-              ※必須
-          = f.text_field :price , placeholder:" 販売価格(300~2,000,000)",class: "edit_priceform"            
+          = f.text_field :brand, placeholder:"指定なし",class: "nameform"
+      .status
+        .status-info
+          .status-info__name
+            商品の状態
+          .status-info__must
+            ※必須
+          = f.collection_select :status_id ,Status.all, :id,:name ,class: "statusform"
+      .area
+        .areainfo
+          .areainfo__name
+            発送元の地域
+          .areainfo__must
+            ※必須
+          = f.collection_select :area_id ,Area.all, :id,:name ,class: "statusform"
+      .limit
+        .limitinfo
+          .limitinfo__name
+            発送までの日数
+          .limitinfo__must
+            ※必須
+          = f.collection_select :limit_id ,Limit.all, :id,:name ,class: "limitform"
+      .delivery_cost 
+        .deliveryinfo
+          .deliveryinfo__name
+            配送料の負担
+          .deliveryinfo__must
+            ※必須
+          = f.collection_select :delivery_cost_id ,DeliveryCost.all, :id,:name,class: "deliveryform"
+      .price-info
+        .price-info__box
+          .price-info__box__name
+            価格
+          .price-info__box__must
+            ※必須
+          = f.text_field :price , placeholder:" 販売価格(300~2,000,000)",class: ".price-info__box__form"
+
       .edit_box
         .edit_new
-          = f.submit "更新して出品する",class: "edit_newbtn"  
+          = f.submit "更新して出品する",class: "edit_newbtn"
+    
